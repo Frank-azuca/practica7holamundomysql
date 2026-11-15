@@ -1,4 +1,4 @@
-# Práctica: Hola Mundo en PHP conectado a MySQL con Docker Compose
+# Práctica 7: Hola Mundo en PHP conectado a MySQL con Docker Compose
 
 Aplicación web "Hola Mundo" en PHP que se conecta a una base de datos MySQL. Los dos servicios se levantan con Docker Compose.
 
