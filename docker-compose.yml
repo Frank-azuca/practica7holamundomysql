@@ -1,0 +1,40 @@
+services:
+  # Servidor de aplicación (PHP + Apache)
+  app:
+    build: .
+    container_name: holamundo-app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+    environment:
+      DB_HOST: db
+      DB_NAME: holamundo
+      DB_USER: usuario
+      DB_PASSWORD: clave123
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Base de datos MySQL
+  db:
+    image: mysql:8.0
+    container_name: holamundo-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: holamundo
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: clave123
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  db_data:
